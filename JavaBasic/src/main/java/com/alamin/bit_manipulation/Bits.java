@@ -9,7 +9,14 @@ public class Bits {
 
     }
 
-
+    // TODO: getBitOfPosition
+    // 12 binary:           1 1 0 0
+    // position numbering:  3 2 1 0
+    // check bit 2 number position is bit 1.
+    // 12 binary            ==> 1 1 0 0
+    // bitMask value (1<<1) ==> 0 0 1 0
+    //------------------------------------
+    // & Operation          0 0 0 0 ==> 0
 
     private static void getBitOfPosition(int num, int position){
 
