@@ -13,14 +13,15 @@ import java.util.Map;
 
 public class Root {
     private static Map<String, Customer> customers = new HashMap<>();
+    Map<Customer, Customer> ss = new HashMap<>();
 
     public static void main(String[] args) throws IOException {
 //        String msg = ",a,,b";
 //        String[] split = msg.split(",");
 //        System.out.println(split.length);
 
-        System.out.println(EmailValidImpl.isValid(""));
-        txtFileRead();
+        System.out.println(IpAddressValidImpl.isValid("256.63.177.255"));
+//        txtFileRead();
     }
 
     private static void txtFileRead() throws IOException {
@@ -111,7 +112,13 @@ public class Root {
         customer.setFloors(strings[3]);
         customer.setFeets(strings[4]);
         customer.setPhoneNumber(strings[5]);
-        customer.setEmail(strings[6]);
+        if (IpAddressValidImpl.isValid("212.63.177.249")){
+            System.out.println("========================");
+            customer.setIpAddress(strings[6]);
+
+        }else {
+            customer.setEmail(strings[6]);
+        }
         return customer;
     }
     private static Customer obj8(String[] strings){
