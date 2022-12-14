@@ -8,20 +8,38 @@ import lombok.ToString;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Root {
     private static Map<String, Customer> customers = new HashMap<>();
-    Map<Customer, Customer> ss = new HashMap<>();
+    private static Map<String, Customer> customersNumber = new HashMap<>();
+    private static List<Customer> customersInvalidList = new ArrayList<>();
+    static int t = 0;
+    static int t1 = 0;
+    static int t2 = 0;
+
+    private static void print(){
+        for (Map.Entry<String, Customer> entry: customers.entrySet()){
+            if(entry.getValue().getIpAddress() == null){
+                System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
+            }
+
+        }
+        System.out.println("=======");
+    }
 
     public static void main(String[] args) throws IOException {
 //        String msg = ",a,,b";
 //        String[] split = msg.split(",");
 //        System.out.println(split.length);
 
-        System.out.println(IpAddressValidImpl.isValid("256.63.177.255"));
-//        txtFileRead();
+//        System.out.println(IpAddressValidImpl.isValid("256.63.177.255"));
+        txtFileRead();
+//        print();
+        System.out.println("Invalid Number size: "+customersInvalidList.size());
     }
 
     private static void txtFileRead() throws IOException {
@@ -42,11 +60,11 @@ public class Root {
                 sb.append(System.lineSeparator());
                 String[] split = line.split(",");
                 createObj(split);
-                if (split.length < 7){
-                    System.out.println("=================================="+split.length);
-                    System.out.println(split[split.length-1]);
-                    System.out.println(split[split.length-2]);
-                    System.out.println(split[split.length-3]);
+                if (split.length == 7){
+//                    System.out.println("=================================="+split.length);
+//                    System.out.println(split[split.length-1]);
+//                    System.out.println(split[split.length-2]);
+//                    System.out.println(split[split.length-3]);
 
                     c1++;
                 }else if (split.length == 8){
@@ -72,7 +90,10 @@ public class Root {
             }
             String everything = sb.toString();
             System.out.println("C1: "+c1+"\nC2: "+c2+"\nC3: "+c3+"\n"+(c1+c2+c3));
+            System.out.println((t1+t2));
+            System.out.println(t+customers.size());
             System.out.println(customers.size());
+            System.out.println("Number:"+customersNumber.size());
         } finally {
             br.close();
         }
@@ -84,7 +105,7 @@ public class Root {
         }else if (str.length==8){
             createdObjectImp(obj8(str));
         }else if (str.length == 15){
-            String[] newString7 = new String[7];
+            String[] newString7 = new String[8];
             String[] newString8 = new String[8];
             for (int i = 8; i < str.length; i++) {
                 newString7[i-8] = str[i];
@@ -97,28 +118,43 @@ public class Root {
         }
     }
     private static void createdObjectImp(Customer customer){
-        if (!EmailValidImpl.isValid(customer.getEmail())){
-            System.out.println(customer);
+        if (!NumberValidImpl.isValid(customer.getPhoneNumber())){
+            customersInvalidList.add(customer);
+//            System.out.println(customer);
         }
-        if (!customers.containsKey(customer.getEmail()) && EmailValidImpl.isValid(customer.getEmail())){
+        if (!customersNumber.containsKey(customer.getPhoneNumber()) && NumberValidImpl.isValid(customer.getPhoneNumber())){
+            customersNumber.put(customer.getPhoneNumber(), customer);
+        }
+        if (!customers.containsKey(customer.getEmail())
+                && EmailValidImpl.isValid(customer.getEmail())
+                && NumberValidImpl.isValid(customer.getPhoneNumber())){
             customers.put(customer.getEmail(), customer);
+        }else {
+            t++;
+//            System.out.println(customer);
         }
     }
     private static Customer obj7(String[] strings){
         Customer customer = new Customer();
         customer.setFirstName(strings[0]);
-        customer.setLastName(strings[1]);
-        customer.setCity(strings[2]);
-        customer.setFloors(strings[3]);
-        customer.setFeets(strings[4]);
-        customer.setPhoneNumber(strings[5]);
-        if (IpAddressValidImpl.isValid("212.63.177.249")){
-            System.out.println("========================");
+        if (IpAddressValidImpl.isValid(strings[strings.length-1])){
+            customer.setCity(strings[1]);
+            customer.setFloors(strings[2]);
+            customer.setFeets(strings[3]);
+            customer.setPhoneNumber(strings[4]);
+            customer.setEmail(strings[5]);
             customer.setIpAddress(strings[6]);
+//            System.out.println(customer);
 
         }else {
+            customer.setLastName(strings[1]);
+            customer.setCity(strings[2]);
+            customer.setFloors(strings[3]);
+            customer.setFeets(strings[4]);
+            customer.setPhoneNumber(strings[5]);
             customer.setEmail(strings[6]);
         }
+        t1++;
         return customer;
     }
     private static Customer obj8(String[] strings){
@@ -131,6 +167,7 @@ public class Root {
         customer.setPhoneNumber(strings[5]);
         customer.setEmail(strings[6]);
         customer.setIpAddress(strings[7]);
+        t2++;
         return customer;
     }
 }
