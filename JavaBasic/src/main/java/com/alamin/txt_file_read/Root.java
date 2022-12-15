@@ -37,9 +37,59 @@ public class Root {
 //        System.out.println(split.length);
 
 //        System.out.println(IpAddressValidImpl.isValid("256.63.177.255"));
-        txtFileRead();
+//        txtFileRead();
 //        print();
-        System.out.println("Invalid Number size: "+customersInvalidList.size());
+//        System.out.println("Invalid Number size: "+customersInvalidList.size());
+
+        test();
+    }
+
+    private static void test(){
+        String str = "Robert,Branch,Haines city,FL,33844,4074686162,rbranch@pacbell.net" +
+                ",Robin,Branch,Haines city,FL,33844,4074686162,rbranch@pacbell.net,65.215.76.5"+
+                ",Tania,Branch,Haines city,FL,33844,4074686162,rbranch@pacbell.net,65.215.76.5";
+        String[] split = str.split(",");
+        String[] strings = new String[8];
+        int p = 0;
+        int index = 7;
+        List<String> list = new ArrayList<>();
+        for (int i = split.length-1; i >= 0; i--){
+            if (i==0){
+                list.add(split[i]);
+                System.out.println(list);
+                break;
+            }else if ((i-1)>1 && (IpAddressValidImpl.isValid(split[i-1]))){
+                list.add(split[i]);
+                System.out.println(list);
+                list.clear();
+            }else if ((i-1)>1 && !IpAddressValidImpl.isValid(split[i]) && split[i-1].contains("@") && NumericNumber.isNumeric(split[i-2])){
+                list.add(split[i]);
+                System.out.println(list);
+                list.clear();
+            }else {
+                list.add(split[i]);
+            }
+//            if (i == 0){
+//                strings[index] = split[i];
+//                for (String s: strings){
+//                    System.out.print(","+s);
+//                }
+//                System.out.println();
+//                break;
+//            }else if (p == 8){
+//                for (String s: strings){
+//                    System.out.print(","+s);
+//                }
+//                System.out.println();
+//                strings = new String[8];
+//                index = 7;
+//                strings[index--] = split[i];
+//                p = 1;
+//            }else {
+//                strings[index--] = split[i];
+//                p++;
+//            }
+        }
     }
 
     private static void txtFileRead() throws IOException {
