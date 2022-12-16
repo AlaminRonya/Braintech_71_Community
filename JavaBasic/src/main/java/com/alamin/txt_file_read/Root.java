@@ -8,10 +8,7 @@ import lombok.ToString;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Root {
     private static Map<String, Customer> customers = new HashMap<>();
@@ -20,6 +17,10 @@ public class Root {
     static int t = 0;
     static int t1 = 0;
     static int t2 = 0;
+    static int test1 = 0;
+    static int test2 = 0;
+    static int o1 = 0;
+
 
     private static void print(){
         for (Map.Entry<String, Customer> entry: customers.entrySet()){
@@ -41,32 +42,129 @@ public class Root {
 //        print();
 //        System.out.println("Invalid Number size: "+customersInvalidList.size());
 
-        test();
+        txtFileRead();
+        dynamic();
+        System.out.println("test1: "+test1);
+        System.out.println("test2: "+test2);
+        System.out.println("o1: "+o1);
+
+//        testing();
+//        System.out.println(IpAddressValidImpl.isValid("069.028.216.097"));
     }
 
-    private static void test(){
+    private static void testing(){
+//        String str = "francis, williams, spotsylvania, va, 22553, 5407984693, franciswilliams@gmail.com, 069.028.216.097";
         String str = "Robert,Branch,Haines city,FL,33844,4074686162,rbranch@pacbell.net" +
-                ",Robin,Branch,Haines city,FL,33844,4074686162,rbranch@pacbell.net,65.215.76.5"+
-                ",Tania,Branch,Haines city,FL,33844,4074686162,rbranch@pacbell.net,65.215.76.5";
+                ",Robert,Branch,Haines city,FL,33844,4074686162,rbranch@pacbell.net" +
+                ",francis, williams, spotsylvania, va,22553,5407984693,franciswilliams@gmail.com,069.028.216.097"+
+                ",Robin,Branch,Haines city,33844,4074686162,rbranch@pacbell.net";
         String[] split = str.split(",");
-        String[] strings = new String[8];
-        int p = 0;
-        int index = 7;
+        List<String> list = new ArrayList<>();
+        for (int i = split.length-1; i >= 0; i--){
+            String string = split[i].trim();
+            if (i==0){
+                list.add(split[i]);
+                System.out.println(list);
+                list.clear();
+                break;
+            }
+
+            else if ((i-1 > 2) && IpAddressValidImpl.isValid(split[i-1].trim())
+                    && split[i-2].trim().contains("@") && NumericNumber.isNumeric(split[i-3].trim())){
+                list.add(split[i]);
+                System.out.println(list);
+                list.clear();
+            }
+
+            else if ((i-1)>1 && !IpAddressValidImpl.isValid(split[i].trim())
+                    && split[i-1].trim().contains("@") && NumericNumber.isNumeric(split[i-2].trim())){
+                list.add(split[i]);
+                System.out.println(list);
+                list.clear();
+            }
+            else {
+                list.add(split[i]);
+            }
+        }
+
+    }
+    private static void dynamic() throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(
+                "D:/Braintech 71 Community/JavaBasic/src/main/java/com/alamin/" +
+                        "txt_file_read/1M-customers.txt"));
+
+        try {
+            StringBuilder sb = new StringBuilder();
+            String line = br.readLine();
+            while (line != null) {
+                sb.append(line);
+                sb.append(System.lineSeparator());
+                String[] split = line.split(",");
+                if (split.length == 7 || split.length == 8 || split.length == 15 ){
+
+                }else{
+                    System.out.println(line+"==>"+line.split(",").length);
+                }
+
+                test(line.split(","));
+
+                line = br.readLine();
+            }
+
+        } finally {
+            br.close();
+        }
+
+    }
+    private static void test(String[] split){
+
+
         List<String> list = new ArrayList<>();
         for (int i = split.length-1; i >= 0; i--){
             if (i==0){
                 list.add(split[i]);
-                System.out.println(list);
+//                System.out.println("==================1======================");
+//                System.out.println(list);
+                if (list.size()==7 || list.size() == 8){
+                    test2++;
+                }else {
+                    System.out.println("1:==>"+list);
+                }
+                test1++;
+                list.clear();
                 break;
-            }else if ((i-1)>1 && (IpAddressValidImpl.isValid(split[i-1]))){
+            }
+            else if ((i-1 > 3) &&  IpAddressValidImpl.isValid(split[i-1].trim())
+                    && split[i-2].trim().contains("@") && NumericNumber.isNumeric(split[i-3].trim())){
                 list.add(split[i]);
-                System.out.println(list);
+//                System.out.println("==================2======================");
+//                System.out.println(list);
+                if (list.size()==7 || list.size() == 8){
+                    test2++;
+                }else {
+                    System.out.println("2:==>"+list);
+                }
+                test1++;
                 list.clear();
-            }else if ((i-1)>1 && !IpAddressValidImpl.isValid(split[i]) && split[i-1].contains("@") && NumericNumber.isNumeric(split[i-2])){
+            }
+
+            else if ((i-1 > 3) && !IpAddressValidImpl.isValid(split[i].trim())
+                    && split[i-1].trim().contains("@") && NumericNumber.isNumeric(split[i-2].trim())) {
+
                 list.add(split[i]);
-                System.out.println(list);
+//                System.out.println("==================3======================");
+//                System.out.println(list);
+                if (list.size()==7 || list.size() == 8){
+                    test2++;
+                }else {
+                    System.out.println("===>"+Arrays.asList(split));
+                    System.out.println("3:==>"+list);
+                }
+                test1++;
                 list.clear();
-            }else {
+            }
+
+            else {
                 list.add(split[i]);
             }
 //            if (i == 0){
@@ -168,6 +266,7 @@ public class Root {
         }
     }
     private static void createdObjectImp(Customer customer){
+
         if (!NumberValidImpl.isValid(customer.getPhoneNumber())){
             customersInvalidList.add(customer);
 //            System.out.println(customer);
@@ -185,6 +284,7 @@ public class Root {
         }
     }
     private static Customer obj7(String[] strings){
+        o1++;
         Customer customer = new Customer();
         customer.setFirstName(strings[0]);
         if (IpAddressValidImpl.isValid(strings[strings.length-1])){
@@ -208,6 +308,7 @@ public class Root {
         return customer;
     }
     private static Customer obj8(String[] strings){
+        o1++;
         Customer customer = new Customer();
         customer.setFirstName(strings[0]);
         customer.setLastName(strings[1]);
