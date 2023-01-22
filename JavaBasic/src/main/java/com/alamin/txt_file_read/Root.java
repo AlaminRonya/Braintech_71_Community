@@ -247,6 +247,36 @@ public class Root {
         }
     }
 
+    private static Customer objectCreate(List<String> list){
+        Customer customer = new Customer();
+        customer.setFirstName(list.get(list.size()-1));
+        if (list.size() == 7){
+            if (IpAddressValidImpl.isValid(list.get(0).trim())){
+                customer.setIpAddress(list.get(0));
+                customer.setEmail(list.get(1));
+                customer.setPhoneNumber(list.get(2));
+                customer.setFeets(list.get(3));
+                customer.setFloors(list.get(4));
+                customer.setCity(list.get(5));
+            }else {
+                customer.setEmail(list.get(0));
+                customer.setPhoneNumber(list.get(1));
+                customer.setFeets(list.get(2));
+                customer.setFloors(list.get(3));
+                customer.setCity(list.get(4));
+                customer.setLastName(list.get(5));
+            }
+        }else if (list.size() == 8){
+            customer.setIpAddress(list.get(0));
+            customer.setEmail(list.get(1));
+            customer.setPhoneNumber(list.get(2));
+            customer.setFeets(list.get(3));
+            customer.setFloors(list.get(4));
+            customer.setCity(list.get(5));
+            customer.setLastName(list.get(6));
+        }
+        return customer;
+    }
     private static void createObj(String[] str){
         if (str.length==7){
             createdObjectImp(obj7(str));
