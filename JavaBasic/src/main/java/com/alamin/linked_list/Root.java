@@ -65,15 +65,61 @@ class LinkedListImplementations{
 
         return newNode;
     }
+    public static Node reverseIt(Node head){
+        Node newNode = null;
+        while (head != null){
+            Node temp = head.next;
+            head.next = newNode;
+            newNode = head;
+            head = temp;
+        }
+        return newNode;
+    }
+//    public static Node addTwoListOneDigit(Node n1, Node n2){
+//        if (n1 == null && n2 == null){
+//            return null;
+//        }
+//        if (n1 == null){
+//            return n2;
+//        }
+//        if (n2 == null){
+//            return n1;
+//        }
+//
+//
+//    }
+
+    public static Node deleteAnyPosition(Node head, int pos){
+        if (head == null || pos < 1){
+            return head;
+        }
+        if (pos == 1){
+            return head.next;
+        }
+        Node temp  = head;
+        while (--pos > 1 && temp.next != null){
+            temp = temp.next;
+        }
+        if (temp.next != null){
+            temp.next = temp.next.next;
+        }
+        return head;
+
+    }
 }
 public class Root {
     public static void main(String[] args) {
         Node head = null;
-//        head = LinkedListImplementations.insertNumberOfPosition(3, head, 1);
-//        LinkedListImplementations.insertNumberOfPosition(1, head, 2);
-//        LinkedListImplementations.insertNumberOfPosition(2, head, 2);
-        Node reverse = LinkedListImplementations.reverse(head);
+        head = LinkedListImplementations.insertNumberOfPosition(3, head, 1);
+        LinkedListImplementations.insertNumberOfPosition(1, head, 2);
+        LinkedListImplementations.insertNumberOfPosition(2, head, 2);
+        LinkedListImplementations.show(head);
+        Node node1 = LinkedListImplementations.reverseIt(head);
+        Node node = LinkedListImplementations.deleteAnyPosition(head, -1);
 
+
+//        Node reverse = LinkedListImplementations.reverse(head);
+        LinkedListImplementations.show(node1);
 
 //        head = LinkedListImplementations.insertNumberOfPosition(4, head, 1);
 //        LinkedListImplementations.insertNumberOfPosition(5, head, 5);
@@ -82,7 +128,7 @@ public class Root {
 //        head = LinkedListImplementations.insertLastPosition(2, head);
 //        head = LinkedListImplementations.insertLastPosition(1, head);
 //        head = LinkedListImplementations.insertFirst(1, head);
-        LinkedListImplementations.show(reverse);
+
 //        LinkedListImplementations.show(head);
     }
 }
